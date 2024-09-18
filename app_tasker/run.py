@@ -30,7 +30,9 @@ def main(page: ft.Page):
             save_tasks(tasks)  # Salva a tarefa no arquivo JSON
             update_task_list()  # Atualiza a lista de tarefas na interface
             task_input.value = ""
+            page.focus(task_input)  # Redireciona o foco para o TextField
             page.update()
+            task_input.focus() #Tenta redirecionar o foco para o TextField depois
 
     def toggle_theme(e):
         nonlocal dark_theme
@@ -93,7 +95,7 @@ def main(page: ft.Page):
     )
     
     # Adicionar Tarefa
-    task_input = ft.TextField(label="Nova Tarefa", width=400)
+    task_input = ft.TextField(label="Nova Tarefa", width=400, on_submit=lambda e: add_task(e))
     add_task_button = ft.IconButton(ft.icons.ADD, on_click=add_task)
     
     page.add(
@@ -120,8 +122,8 @@ def main(page: ft.Page):
         ft.Container(
             content=ft.Column(
                 [
-                    tasks_list,
-                    remove_completed_button
+                    remove_completed_button,
+                    tasks_list
                 ]
             ),
             padding=ft.padding.all(20)
